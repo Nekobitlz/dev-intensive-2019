@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.extensions
 
+import java.lang.Math.abs
 import java.util.*
 import java.text.SimpleDateFormat
 
@@ -29,9 +30,70 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
 }
 
 fun Date.humanizeDiff(date: Date = Date()): String {
-    TODO("DZ")
+    val diff = this.time - date.time
+
+    return if (diff >= 0)
+        intervalInFuture(abs(diff))
+        else
+        intervalInPast(abs(diff))
+}
+
+private fun intervalInFuture(diff: Long): String {
+    val secondDiff = abs(diff / SECOND.toDouble()).toInt()
+    val minuteDiff = abs(diff / MINUTE.toDouble()).toInt()
+    val hourDiff = abs(diff / HOUR.toDouble()).toInt()
+    val dayDiff = abs(diff / DAY.toDouble()).toInt()
+
+    return when {
+        secondDiff <= 45 -> "через несколько секунд"
+        secondDiff <= 75 -> "через минуту"
+        minuteDiff <= 45 -> "через ${TimeUnits.MINUTE.plural(minuteDiff)}"
+        minuteDiff <= 75 -> "через час"
+        hourDiff <= 22 -> "через ${TimeUnits.HOUR.plural(hourDiff)}"
+        hourDiff <= 26 -> "через день"
+        dayDiff <= 360 -> "через ${TimeUnits.DAY.plural(dayDiff)}"
+        else -> "более чем через год"
+    }
+}
+
+private fun intervalInPast(diff: Long): String {
+    val secondDiff = abs(diff / SECOND.toDouble()).toInt()
+    val minuteDiff = abs(diff / MINUTE.toDouble()).toInt()
+    val hourDiff = abs(diff / HOUR.toDouble()).toInt()
+    val dayDiff = abs(diff / DAY.toDouble()).toInt()
+
+    return when {
+        secondDiff <= 1 -> "только что"
+        secondDiff <= 45 -> "несколько секунд назад"
+        secondDiff <= 75 -> "минуту назад"
+        minuteDiff <= 45 -> "${TimeUnits.MINUTE.plural(minuteDiff)} назад"
+        minuteDiff <= 75 -> "час назад"
+        hourDiff <= 22 -> "${TimeUnits.HOUR.plural(hourDiff)} назад"
+        hourDiff <= 26 -> "день назад"
+        dayDiff <= 360 -> "${TimeUnits.DAY.plural(dayDiff)} назад"
+        else -> "более года назад"
+    }
 }
 
 enum class TimeUnits {
-    SECOND, MINUTE, HOUR, DAY
+    SECOND, MINUTE, HOUR, DAY;
+
+    fun plural(value: Int): String {
+        val list = when (this) {
+            MINUTE -> listOf("минуту", "минуты", "минут")
+            HOUR -> listOf("час", "часа", "часов")
+            DAY -> listOf("день", "дня", "дней")
+            SECOND -> listOf("секунда", "секунды", "секунд")
+        }
+
+        var time = ""
+        when (value) {
+            0, in 5..19 -> time = list[2]
+            1 -> time = list[0]
+            in 2..4 -> time = list[1]
+            else -> this.plural(value % 10)
+        }
+
+        return "$value $time"
+    }
 }

@@ -1,8 +1,8 @@
 package ru.skillbranch.devintensive.extensions
 
 import java.lang.Math.abs
-import java.util.*
 import java.text.SimpleDateFormat
+import java.util.*
 
 const val SECOND = 1000L
 const val MINUTE = 60 * SECOND
@@ -86,12 +86,11 @@ enum class TimeUnits {
             SECOND -> listOf("секунда", "секунды", "секунд")
         }
 
-        var time = ""
-        when (value) {
-            0, in 5..19 -> time = list[2]
-            1 -> time = list[0]
-            in 2..4 -> time = list[1]
-            else -> this.plural(value % 10)
+        val time = when (value % 10) {
+            0, in 5..19 -> list[2]
+            1 -> list[0]
+            in 2..4 -> list[1]
+            else -> ""
         }
 
         return "$value $time"

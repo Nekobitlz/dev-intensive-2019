@@ -4,7 +4,7 @@ import java.lang.StringBuilder
 
 object Utils {
     fun parseFullName(fullName: String?): Pair<String?, String?> {
-        val parts: List<String>? = fullName?.split(" ")
+        val parts: List<String>? = fullName?.trim()?.split(" ")
 
         var firstName = parts?.getOrNull(0)
         var lastName = parts?.getOrNull(1)
@@ -76,6 +76,6 @@ object Utils {
         if (firstName.isNullOrBlank() && lastName.isNullOrBlank())
             return null
 
-        return  "${firstName?.get(0)?.toUpperCase() ?: ""}${lastName?.get(0)?.toUpperCase() ?: ""}"
+        return "${firstName?.trim()?.get(0)?.toUpperCase() ?: ""}${lastName?.trim()?.get(0)?.toUpperCase() ?: ""}"
     }
 }

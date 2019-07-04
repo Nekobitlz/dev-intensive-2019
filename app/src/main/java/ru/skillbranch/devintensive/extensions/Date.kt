@@ -45,6 +45,7 @@ private fun intervalInFuture(diff: Long): String {
     val dayDiff = abs(diff / DAY.toDouble()).toInt()
 
     return when {
+        secondDiff <= 1 -> "только что"
         secondDiff <= 45 -> "через несколько секунд"
         secondDiff <= 75 -> "через минуту"
         minuteDiff <= 45 -> "через ${TimeUnits.MINUTE.plural(minuteDiff)}"
@@ -83,10 +84,16 @@ enum class TimeUnits {
             MINUTE -> listOf("минуту", "минуты", "минут")
             HOUR -> listOf("час", "часа", "часов")
             DAY -> listOf("день", "дня", "дней")
-            SECOND -> listOf("секунда", "секунды", "секунд")
+            SECOND -> listOf("секунду", "секунды", "секунд")
         }
 
-        val time = when (value % 10) {
+        val argument: Int = when {
+            value <= 19 -> value
+            value % 100 <= 19 -> value % 100
+            else -> value % 10
+        }
+
+        val time = when (argument) {
             0, in 5..19 -> list[2]
             1 -> list[0]
             in 2..4 -> list[1]

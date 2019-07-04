@@ -1,10 +1,12 @@
 package ru.skillbranch.devintensive.extensions
 
 fun String.truncate(number: Int = 16): String {
-    if (this.trim().length <= number)
-        return this.trim()
+    val trimmedString = this.trim()
 
-    val result = this.removeRange(number, this.length)
+    if (trimmedString.length <= number)
+        return trimmedString
+
+    val result = trimmedString.removeRange(number, trimmedString.length)
 
     return if (result.last() == ' ')
         result.trim().plus("...")
@@ -17,20 +19,15 @@ fun String.stripHtml(): String {
 
     while (symbols < this.length) {
         when (this[symbols]) {
-            '<' -> while (this[symbols] != '>') { symbols++ }
-            '&' -> {/* DON'T INSERT */}
+            '<' -> while (this[symbols] != '>' && symbols < this.length) { symbols++ }
+            '&' -> while (this[symbols] != ';' && symbols < this.length) { symbols++ }
             '>' -> {/* DON'T INSERT */}
             '\'' -> {/* DON'T INSERT */}
-            ' ' -> {
-                result += this[symbols]
-                while (this[symbols] == ' ') { symbols++ }
-                result += this[symbols]
-            }
             else -> result += this[symbols]
         }
 
         symbols++
     }
 
-    return result
+    return result.replace(Regex(" {2,}"), " ")
 }

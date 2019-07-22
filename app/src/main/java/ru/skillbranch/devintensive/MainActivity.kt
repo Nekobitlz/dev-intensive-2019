@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
     private fun isValid(): Boolean = benderObj.question.validate(messageEt.text.toString())
 
     private fun sendSuccessAnswer() {
-        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().trim().toLowerCase())
+        val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
         val (r, g, b) = color
 
         messageEt.setText("")

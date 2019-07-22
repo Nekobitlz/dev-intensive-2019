@@ -2,32 +2,17 @@ package ru.skillbranch.devintensive.models
 
 class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME) {
 
-    var error = 0
-
-    fun askQuestion(): String = when (question) {
-        Question.NAME -> "${question.addValidation()}\n${Question.NAME.question}"
-        Question.MATERIAL -> "${question.addValidation()}\n${Question.MATERIAL.question}"
-        Question.PROFESSION -> "${question.addValidation()}\n${Question.PROFESSION.question}"
-        Question.BDAY -> "${question.addValidation()}\n${Question.BDAY.question}"
-        Question.SERIAL -> "${question.addValidation()}\n${Question.SERIAL.question}"
-        Question.IDLE -> "${question.addValidation()}\n${Question.IDLE.question}"
-    }
+    fun askQuestion(): String = question.question
 
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
         return if (question.answers.contains(answer.toLowerCase())) {
-            if (question.validate(answer)) {
-                question = question.nextQuestion()
-                "Отлично - ты справился\n${askQuestion()}" to status.color
-            } else {
-                askQuestion() to status.color
-            }
+            question = question.nextQuestion()
+            "Отлично - ты справился\n${askQuestion()}" to status.color
         } else {
-            if (error < 3) {
+            if (status != Status.CRITICAL) {
                 status = status.nextStatus()
-                error++
                 "Это не правильный ответ\n${askQuestion()}" to status.color
             } else {
-                error = 0
                 question = Question.NAME
                 status = Status.NORMAL
                 "Это неправильный ответ. Давай все по новой\n${askQuestion()}" to status.color
@@ -35,8 +20,8 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         }
     }
 
-    private fun Question.addValidation(): String {
-        return when (this) {
+    fun addValidation(question: Question): String {
+        return when (question) {
             Question.NAME -> "Имя должно начинаться с заглавной буквы"
             Question.PROFESSION -> "Профессия должна начинаться со строчной буквы"
             Question.MATERIAL -> "Материал не должен содержать цифр"
@@ -80,7 +65,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
             override fun validate(answer: String): Boolean = answer.trim().contains(Regex("""^\d{7}$"""))
             override fun nextQuestion(): Question = IDLE
         },
-        IDLE("На этом всё, вопросов больше нет", listOf()) {
+        IDLE("На этом все, вопросов больше нет", listOf()) {
             override fun validate(answer: String): Boolean = true
             override fun nextQuestion(): Question = IDLE
         };

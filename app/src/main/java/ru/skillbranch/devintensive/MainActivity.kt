@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
 
         textTxt.text = benderObj.askQuestion()
+
         sendBtn.setOnClickListener(this)
         messageEt.setRawInputType(InputType.TYPE_CLASS_TEXT)
         messageEt.setOnEditorActionListener { _, actionId, _ ->
@@ -91,15 +92,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
 
     override fun onClick(v: View?) {
         if (v?.id == R.id.iv_send) {
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.trim().toString())
-            val (r, g, b) = color
-
-            messageEt.setText("")
-            benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
-            textTxt.text = phrase
+            if (isValid()) sendSuccessAnswer() else sendErrorAnswer()
         }
     }
 
+    private fun isValid(): Boolean = benderObj.question.validate(messageEt.text.toString())
+
+    private fun sendSuccessAnswer() {
+        val (phrase, color) = benderObj.listenAnswer(messageEt.text.trim().toString())
+        val (r, g, b) = color
+
+        messageEt.setText("")
+        benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
+        textTxt.text = phrase
+    }
+
+    private fun sendErrorAnswer() {
+        val errorMessage = benderObj.addValidation(benderObj.question)
+
+        textTxt.text = errorMessage + "\n" + benderObj.question.question
+        messageEt.setText("")
+    }
 
     companion object {
         const val STATUS_TAG = "STATUS"

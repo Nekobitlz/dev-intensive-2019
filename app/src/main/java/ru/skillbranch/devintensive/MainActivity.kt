@@ -31,9 +31,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         messageEt = et_message
         sendBtn = iv_send
 
-        makeSendOnActionDone(messageEt)
-        val status = savedInstanceState?.getString("STATUS") ?: Bender.Status.NORMAL.name
-        val question = savedInstanceState?.getString("QUESTION") ?: Bender.Question.NAME.name
+        val status = savedInstanceState?.getString(STATUS_TAG) ?: Bender.Status.NORMAL.name
+        val question = savedInstanceState?.getString(QUESTION_TAG) ?: Bender.Question.NAME.name
         benderObj = Bender(Bender.Status.valueOf(status), Question.valueOf(question))
 
         val(r, g, b) = benderObj.status.color
@@ -41,12 +40,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
-    }
 
-    private fun makeSendOnActionDone(editText: EditText) {
-        editText.setRawInputType(InputType.TYPE_CLASS_TEXT)
-        editText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) sendBtn.performClick()
+        messageEt.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        messageEt.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                sendBtn.performClick()
+
             false
         }
     }
@@ -54,38 +53,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v?.id == R.id.iv_send)
             if (isAnswerValid())
-                sendAnswer()
-            else makeErrorMessage()
+                sendSuccess()
+            else
+                sendError()
     }
 
-    private fun makeErrorMessage() {
-        val errorMessage = when(benderObj.question){
-            Question.NAME -> "Имя должно начинаться с заглавной буквы"
-            Question.PROFESSION -> "Профессия должна начинаться со строчной буквы"
-            Question.MATERIAL -> "Материал не должен содержать цифр"
-            Question.BDAY -> "Год моего рождения должен содержать только цифры"
-            Question.SERIAL -> "Серийный номер содержит только цифры, и их 7"
-            else -> "На этом все, вопросов больше нет"
-        }
-        textTxt.text = errorMessage + "\n" + benderObj.question.question
+    private fun sendError() {
+        val errorMessage = benderObj.addValidationMessage(benderObj.question)
+
+        textTxt.text = "$errorMessage\n${benderObj.question.question}"
         messageEt.setText("")
     }
 
-    private fun isAnswerValid(): Boolean {
-       return benderObj.question.validate(messageEt.text.toString())
-    }
+    private fun isAnswerValid(): Boolean = benderObj.question.validate(messageEt.text.toString())
 
-    private fun sendAnswer() {
+    private fun sendSuccess() {
         val (phase, color) = benderObj.listenAnswer(messageEt.text.toString().toLowerCase())
-        messageEt.setText("")
         val(r, g, b) = color
+
+        messageEt.setText("")
         benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
         textTxt.text = phase
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putString("STATUS", benderObj.status.name)
-        outState?.putString("QUESTION", benderObj.question.name)
+
+        outState?.putString(STATUS_TAG, benderObj.status.name)
+        outState?.putString(QUESTION_TAG, benderObj.question.name)
+    }
+
+    companion object {
+        const val STATUS_TAG = "STATUS"
+        const val QUESTION_TAG = "QUESTION"
     }
 }

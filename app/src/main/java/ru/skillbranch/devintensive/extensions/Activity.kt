@@ -33,3 +33,5 @@ fun Activity.convertDpToPx(dp: Float): Float = TypedValue.applyDimension(
         dp,
         resources.displayMetrics
 )
+
+fun Activity.convertPxToDp(px: Float): Float = px / resources.displayMetrics.density

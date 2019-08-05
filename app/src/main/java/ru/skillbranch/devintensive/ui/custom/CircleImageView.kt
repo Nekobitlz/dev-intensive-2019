@@ -7,9 +7,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
+import androidx.core.content.ContextCompat
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.convertDpToPx
 import ru.skillbranch.devintensive.extensions.convertPxToDp
@@ -31,6 +33,9 @@ class CircleImageView @JvmOverloads constructor(
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val clipPath = Path()
 
+    private var text: String? = null
+    private var textDrawable = TextDrawable().apply { setupTextDrawable(this) }
+
     init {
         if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
@@ -47,6 +52,12 @@ class CircleImageView @JvmOverloads constructor(
 
             a.recycle()
         }
+    }
+
+    private fun setupTextDrawable(textDrawable: TextDrawable) {
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
+        textDrawable.backgroundColor = typedValue.data
     }
 
     fun getBorderColor(): Int = borderColor
@@ -68,6 +79,20 @@ class CircleImageView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun getText(): String? = text
+
+    fun setText(text: String?) {
+        if (this.text == text) return
+
+        this.text = text
+
+        // If first name & last name is empty -> avatar is default image
+        if (!text.isNullOrBlank()) {
+            textDrawable.text = text
+            setImageDrawable(textDrawable)
+        } else setImageResource(R.drawable.avatar_default)
+    }
+
     override fun onDraw(canvas: Canvas?) {
         val x = width / DEFAULT_BORDER_WIDTH_DP
         val y = height / DEFAULT_BORDER_WIDTH_DP
@@ -75,12 +100,14 @@ class CircleImageView @JvmOverloads constructor(
 
         clipPath.addCircle(x, y, radius, Path.Direction.CW)
         canvas?.clipPath(clipPath)
-        
+
         super.onDraw(canvas)
 
-        paint.style = Paint.Style.STROKE
-        paint.color = borderColor
-        paint.strokeWidth = borderWidth
+        paint.apply {
+            style = Paint.Style.STROKE
+            color = borderColor
+            strokeWidth = borderWidth
+        }
 
         canvas?.drawCircle(x, y, radius, paint)
     }

@@ -15,4 +15,6 @@
 
     <color name="color_splash_light">#F7FCFC</color>
     <color name="color_splash">#EFEFEF</color>
+    <color name="color_indicator">#581F99</color>
+    <color name="color_green">#4FD149</color>
 </resources>

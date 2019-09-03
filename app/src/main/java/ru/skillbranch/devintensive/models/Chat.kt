@@ -5,7 +5,7 @@ import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
-class Chat(
+data class Chat(
     val id: String,
     val title: String,
     val members: MutableList<User> = mutableListOf(),

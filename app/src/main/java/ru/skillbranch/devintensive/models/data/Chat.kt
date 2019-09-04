@@ -17,9 +17,9 @@ data class Chat(
         return Date()
     }
 
-    private fun lastMessageShort(): String {
+    private fun lastMessageShort(): Pair<String, String> {
         //TODO implement me
-        return "Сообщений еще нет"
+        return "Сообщений еще нет" to "@John_Doe"
     }
 
     private fun unreadableMessageCount(): Int {
@@ -40,10 +40,12 @@ data class Chat(
                     user.avatar,
                     Utils.toInitials(user.firstName, user.lastName) ?: "??",
                     "${user.firstName ?: ""} ${user.lastName ?: ""}",
-                    lastMessageShort(),
+                    lastMessageShort().first,
                     unreadableMessageCount(),
                     lastMessageDate()?.shortFormat(),
-                    user.isOnline
+                    user.isOnline,
+                    ChatType.SINGLE,
+                    lastMessageShort().second
             )
         } else {
             ChatItem (
@@ -51,11 +53,19 @@ data class Chat(
                     null,
                     "",
                     title,
-                    lastMessageShort(),
+                    lastMessageShort().first,
                     unreadableMessageCount(),
                     lastMessageDate()?.shortFormat(),
-                    false
+                    false,
+                    ChatType.GROUP,
+                    lastMessageShort().second
             )
         }
     }
+}
+
+enum class ChatType {
+    SINGLE,
+    GROUP,
+    ARCHIVE
 }

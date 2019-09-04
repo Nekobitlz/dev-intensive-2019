@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.ui.adapters
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
-import ru.skillbranch.devintensive.ui.custom.AvatarImageView
 
 class ChatAdapter(val listener: (ChatItem) -> Unit): RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
 
@@ -32,24 +32,26 @@ class ChatAdapter(val listener: (ChatItem) -> Unit): RecyclerView.Adapter<ChatAd
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
+        Log.d("M_ChatAdapter","onCreateViewHolder")
 
         return when (viewType) {
             SINGLE_TYPE -> SingleViewHolder(inflater.inflate(R.layout.item_chat_single, parent, false))
             GROUP_TYPE -> GroupViewHolder(inflater.inflate(R.layout.item_chat_group, parent, false))
             else -> SingleViewHolder(inflater.inflate(R.layout.item_chat_single, parent, false))
         }
-        /*val convertView = inflater.inflate(R.layout.item_chat_single, parent, false)
-
-        return SingleViewHolder(convertView)*/
     }
 
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ChatItemViewHolder, position: Int) {
         holder.bind(items[position], listener)
+        Log.d("M_ChatAdapter","onBindViewHolder")
     }
 
     fun updateData(data: List<ChatItem>) {
+
+        Log.d("M_ChatAdapter","update data adapter new data ${data.size} hash ${data.hashCode()}" +
+                " old data ${items.size} hash ${items.hashCode()}")
 
         val diffCallback = object: DiffUtil.Callback() {
             override fun areItemsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].id == data[newPos].id
@@ -85,7 +87,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit): RecyclerView.Adapter<ChatAd
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             if (item.avatar == null) {
-                iv_avatar_single.setInitials(item.initials)
+                iv_avatar_single.setText(item.initials)
             } else {
                 //TODO get drawable
             }
@@ -121,7 +123,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit): RecyclerView.Adapter<ChatAd
         }
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-            iv_avatar_group.setInitials(item.title[0].toString())
+            iv_avatar_group.setText(item.title[0].toString())
 
             with (tv_date_group) {
                 visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE

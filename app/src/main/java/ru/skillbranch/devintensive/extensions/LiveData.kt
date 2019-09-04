@@ -6,7 +6,7 @@ fun <T> mutableLiveData(defaultValue: T? = null): MutableLiveData<T> {
     val data = MutableLiveData<T>()
 
     if (defaultValue != null) {
-        data.value == defaultValue
+        data.value = defaultValue
     }
 
     return data

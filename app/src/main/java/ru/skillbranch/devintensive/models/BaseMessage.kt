@@ -6,17 +6,18 @@ import java.util.*
 
 abstract class BaseMessage(
         val id: String,
-        val from: User?,
+        val from: User,
         val chat: Chat,
         val isIncoming: Boolean = false,
-        val date: Date = Date()
+        val date: Date = Date(),
+        var isReaded: Boolean = false
 ) {
     abstract fun formatMessage(): String
 
     companion object AbstractFactory {
         var lastId = -1
 
-        fun makeMessage(from: User?, chat: Chat, date: Date = Date(),
+        fun makeMessage(from: User, chat: Chat, date: Date = Date(),
                         type: String = "text", payload: Any?): BaseMessage {
             lastId++
 

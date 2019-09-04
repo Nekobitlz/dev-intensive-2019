@@ -4,9 +4,9 @@ import android.util.Log
 import ru.skillbranch.devintensive.extensions.TimeUnits
 import ru.skillbranch.devintensive.extensions.add
 import ru.skillbranch.devintensive.models.BaseMessage
-import ru.skillbranch.devintensive.models.Chat
+import ru.skillbranch.devintensive.models.data.Chat
 import ru.skillbranch.devintensive.models.TextMessage
-import ru.skillbranch.devintensive.models.User
+import ru.skillbranch.devintensive.models.data.User
 import java.util.*
 import kotlin.random.Random
 
@@ -351,16 +351,16 @@ object DataGenerator {
             val isMale: Boolean = Random.nextBoolean()
             val (lastVisit: Date?, isOnline: Boolean) = randomDateAndOnline()
             list.add(
-                User(
-                    "$i",
-                    if (isMale) maleNames.random() else femaleNames.random(),
-                    lastNames.random(true),
-                    if (isMale) maleAvatars.random(true) else femaleAvatars.random(true),
-                    (0..Short.MAX_VALUE).random(),
-                    (0..Short.MAX_VALUE).random(),
-                    lastVisit,
-                    isOnline
-                )
+                    User(
+                            "$i",
+                            if (isMale) maleNames.random() else femaleNames.random(),
+                            lastNames.random(true),
+                            if (isMale) maleAvatars.random(true) else femaleAvatars.random(true),
+                            (0..Short.MAX_VALUE).random(),
+                            (0..Short.MAX_VALUE).random(),
+                            lastVisit,
+                            isOnline
+                    )
             )
         }
         return list
@@ -370,8 +370,8 @@ object DataGenerator {
         val list = mutableListOf<Chat>()
         for (user in stabUsers) {
             val singleChat = Chat(
-                "${list.size}",
-                "",
+                    "${list.size}",
+                    "",
                     listOf(user) as MutableList<User>
             )
             singleChat.messages = generateRandomMessages(singleChat, listOf(user))
@@ -381,8 +381,8 @@ object DataGenerator {
             val members = stabUsers.randomSublist(5, 2)
             Log.e("DataGenerator", "$members")
             val groupChat = Chat(
-                "${list.size}",
-                members.map { it.firstName }.joinToString(", "),
+                    "${list.size}",
+                    members.map { it.firstName }.joinToString(", "),
                     members as MutableList<User>
             )
             groupChat.messages = generateRandomMessages(groupChat, members)
@@ -396,8 +396,8 @@ object DataGenerator {
         val users = generateUsers(count)
         for (user in users) {
             val singleChat = Chat(
-                "${list.size}",
-                "",
+                    "${list.size}",
+                    "",
                     listOf(user) as MutableList<User>
             )
             singleChat.messages = generateRandomMessages(singleChat, listOf(user))
@@ -407,8 +407,8 @@ object DataGenerator {
             for (i in 0..count) {
                 val members = users.randomSublist(5, 2)
                 val groupChat = Chat(
-                    "${list.size}",
-                    "Группа ${list.size}",
+                        "${list.size}",
+                        "Группа ${list.size}",
                         members as MutableList<User>
                 )
                 groupChat.messages = generateRandomMessages(groupChat, members)
@@ -424,8 +424,8 @@ object DataGenerator {
         val users = generateUsers(count)
         for (user in users) {
             val singleChat = Chat(
-                "${startId + list.size}",
-                "",
+                    "${startId + list.size}",
+                    "",
                     listOf(user) as MutableList<User>
             )
             singleChat.messages = generateRandomMessages(singleChat, listOf(user))

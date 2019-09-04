@@ -1,16 +1,16 @@
-package ru.skillbranch.devintensive.models
+package ru.skillbranch.devintensive.models.data
 
 import ru.skillbranch.devintensive.extensions.shortFormat
-import ru.skillbranch.devintensive.models.data.ChatItem
+import ru.skillbranch.devintensive.models.BaseMessage
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
 data class Chat(
-    val id: String,
-    val title: String,
-    val members: MutableList<User> = mutableListOf(),
-    var messages: MutableList<BaseMessage> = mutableListOf(),
-    var isArchived: Boolean = false
+        val id: String,
+        val title: String,
+        val members: MutableList<User> = mutableListOf(),
+        var messages: MutableList<BaseMessage> = mutableListOf(),
+        var isArchived: Boolean = false
 ) {
     private fun lastMessageDate(): Date? {
         //TODO implement me

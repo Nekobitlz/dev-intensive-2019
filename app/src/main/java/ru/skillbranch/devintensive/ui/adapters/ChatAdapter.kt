@@ -87,7 +87,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit): RecyclerView.Adapter<ChatAd
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             if (item.avatar == null) {
-                iv_avatar_single.setText(item.initials)
+                iv_avatar_single.setInitials(item.initials)
             } else {
                 //TODO get drawable
             }
@@ -123,7 +123,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit): RecyclerView.Adapter<ChatAd
         }
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-            iv_avatar_group.setText(item.title[0].toString())
+            iv_avatar_group.setInitials(item.title[0].toString())
 
             with (tv_date_group) {
                 visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE

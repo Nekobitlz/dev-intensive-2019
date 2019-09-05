@@ -16,7 +16,7 @@ import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.convertDpToPx
 import ru.skillbranch.devintensive.extensions.convertPxToDp
 
-class CircleImageView @JvmOverloads constructor(
+open class CircleImageView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
@@ -34,7 +34,7 @@ class CircleImageView @JvmOverloads constructor(
     private val clipPath = Path()
 
     private var text: String? = null
-    private var textDrawable = TextDrawable().apply { setupTextDrawable(this) }
+    protected var textDrawable = TextDrawable().apply { setupTextDrawable(this) }
 
     init {
         if (attrs != null) {

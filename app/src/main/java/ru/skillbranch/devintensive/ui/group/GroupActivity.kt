@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.activity_group.toolbar
-import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.UserItem
 import ru.skillbranch.devintensive.ui.adapters.UserAdapter
@@ -69,12 +68,25 @@ class GroupActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@GroupActivity)
             addItemDecoration(divider)
         }
+
+        fab.setOnClickListener {
+            viewModel.handleCreateGroup()
+            finish()
+        }
     }
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
         viewModel.getUsersData().observe(this, Observer { usersAdapter.updateData(it) })
-        viewModel.getSelectedData().observe(this, Observer { updateChips(it) })
+        viewModel.getSelectedData().observe(this, Observer {
+            updateChips(it)
+            toggleFab(it.size > 1)
+        })
+    }
+
+    private fun toggleFab(isShow: Boolean) {
+        if (isShow) fab.show()
+        else fab.hide()
     }
 
     private fun addChipToGroup(user: UserItem) {

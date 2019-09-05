@@ -72,6 +72,7 @@ class GroupActivity : AppCompatActivity() {
         fab.setOnClickListener {
             viewModel.handleCreateGroup()
             finish()
+            overridePendingTransition(R.anim.idle, R.anim.bottom_down)
         }
     }
 

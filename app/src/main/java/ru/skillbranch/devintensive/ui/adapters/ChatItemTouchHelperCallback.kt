@@ -61,8 +61,8 @@ class ChatItemTouchHelperCallback(
             drawBackground(canvas, itemView, dX)
             drawIcon(canvas, itemView, dX)
         }
-        super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 
+        super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
     private fun drawIcon(canvas: Canvas, itemView: View, dX: Float) {
@@ -73,7 +73,7 @@ class ChatItemTouchHelperCallback(
         val margin = (itemView.bottom - itemView.top - iconSize) / 2
 
         with(iconBounds) {
-            left = itemView.left + dX.toInt() + space
+            left = itemView.right + dX.toInt() + space
             top = itemView.top + margin
             right = itemView.right + dX.toInt() + iconSize + space
             bottom = itemView.bottom - margin

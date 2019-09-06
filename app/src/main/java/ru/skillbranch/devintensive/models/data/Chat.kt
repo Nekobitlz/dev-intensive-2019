@@ -22,7 +22,7 @@ data class Chat(
         val firstName = author?.firstName
         val messageText = when (lastMessage) {
             is TextMessage -> lastMessage.text ?: "Сообщений пока что нет"
-            is ImageMessage -> "$author отправил фото"
+            is ImageMessage -> "$firstName - отправил фото"
             else -> "Сообщений пока что нет"
         }
 

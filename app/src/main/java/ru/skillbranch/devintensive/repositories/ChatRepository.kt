@@ -18,7 +18,6 @@ object ChatRepository {
 
         copy[ind] = chat
         chats.value = copy
-
     }
 
     fun find(chatId: String): Chat? {

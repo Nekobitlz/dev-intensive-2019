@@ -14,9 +14,9 @@ data class Chat(
         var messages: MutableList<BaseMessage> = mutableListOf(),
         var isArchived: Boolean = false
 ) {
-    private fun lastMessageDate(): Date? = messages.lastOrNull()?.date
+    fun lastMessageDate(): Date? = messages.lastOrNull()?.date
 
-    private fun lastMessageShort(): Pair<String, String> {
+    fun lastMessageShort(): Pair<String, String> {
         val lastMessage = messages.lastOrNull()
         val author = lastMessage?.from
         val firstName = author?.firstName
@@ -29,7 +29,7 @@ data class Chat(
         return messageText.trim() to "$firstName"
     }
 
-    private fun unreadableMessageCount(): Int {
+    fun unreadableMessageCount(): Int {
         return messages.count { !it.isReaded }
     }
 

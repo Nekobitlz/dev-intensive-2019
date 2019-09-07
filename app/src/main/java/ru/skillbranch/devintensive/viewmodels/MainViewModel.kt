@@ -20,7 +20,10 @@ class MainViewModel: ViewModel() {
         val archiveChats = chats.filter { it.isArchived }
 
         if (archiveChats.isNotEmpty()) {
-            val chatItem: ChatItem = createArchiveChatItem(archiveChats.last())
+            val lastArchiveChat = archiveChats.getLastArchiveChat()
+            val unreadableMessagesCount = countAllUnreadableMessages(archiveChats)
+
+            val chatItem: ChatItem = createArchiveChatItem(lastArchiveChat, unreadableMessagesCount)
             val chatsWithoutArchive = chats.filter { !it.isArchived }
                     .map { it.toChatItem() }
                     .sortedBy { it.id.toInt() }
@@ -73,18 +76,29 @@ class MainViewModel: ViewModel() {
         query.value = text
     }
 
-    private fun createArchiveChatItem(archiveChat: Chat): ChatItem {
+    private fun createArchiveChatItem(archiveChat: Chat, unreadableMessagesCount: Int): ChatItem {
         return ChatItem(
                 id = "-1",
                 avatar = null,
                 initials = "",
                 title = "Архив чатов",
                 shortDescription = archiveChat.lastMessageShort().first,
-                messageCount =  archiveChat.unreadableMessageCount(),
+                messageCount = unreadableMessagesCount,
                 lastMessageDate = archiveChat.lastMessageDate()?.shortFormat(),
                 isOnline = false,
                 chatType = ChatType.ARCHIVE,
                 author = archiveChat.lastMessageShort().second
         )
+    }
+
+    private fun List<Chat>.getLastArchiveChat(): Chat {
+        val count = countAllUnreadableMessages(this)
+
+        return if (count == 0) this.last()
+        else this.filter { it.lastMessageDate() != null }.maxBy { it.lastMessageDate()!! }!!
+    }
+
+    private fun countAllUnreadableMessages(chats: List<Chat>): Int {
+        return chats.sumBy { it.unreadableMessageCount() }
     }
 }

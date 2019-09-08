@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_archive.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.setBackgroundDrawable
+import ru.skillbranch.devintensive.extensions.setTextColor
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.devintensive.viewmodels.ArchiveViewModel
@@ -59,6 +61,8 @@ class ArchiveActivity : AppCompatActivity() {
                     .setAction("Отмена") {
                         viewModel.addToArchive(chatItemId)
                     }
+                    .setBackgroundDrawable(R.drawable.bg_snackbar)
+                    .setTextColor(R.attr.colorSnackbarText)
                     .show()
         }
 

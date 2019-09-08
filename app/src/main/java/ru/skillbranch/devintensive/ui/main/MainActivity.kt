@@ -2,6 +2,7 @@ package ru.skillbranch.devintensive.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.setBackgroundDrawable
+import ru.skillbranch.devintensive.extensions.setTextColor
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
@@ -61,12 +64,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        val typedValue = TypedValue()
+        val theme = this.theme
+        theme.resolveAttribute(R.attr.colorItemBackground, typedValue, true)
+
         chatAdapter = ChatAdapter {
             if (it.chatType == ChatType.ARCHIVE) {
                 val intent = Intent(this, ArchiveActivity::class.java)
                 startActivity(intent)
             } else {
-                Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG)
+                        .setBackgroundDrawable(R.drawable.bg_snackbar)
+                        .setTextColor(typedValue.data)
+                        .show()
             }
         }
 
@@ -75,10 +85,13 @@ class MainActivity : AppCompatActivity() {
             val chatItemId = it.id
             viewModel.addToArchive(chatItemId)
 
+
             Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${it.title} в архив?", Snackbar.LENGTH_LONG)
                     .setAction("Отмена") {
                         viewModel.restoreFromArchive(chatItemId)
                     }
+                    .setBackgroundDrawable(R.drawable.bg_snackbar)
+                    .setTextColor(typedValue.data)
                     .show()
         }
         val touchHelper = ItemTouchHelper(touchCallback)

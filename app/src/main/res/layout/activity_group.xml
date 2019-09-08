@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="?attr/colorChipGroupBackground"
             android:layout_marginTop="?attr/actionBarSize">
 
             <com.google.android.material.chip.ChipGroup

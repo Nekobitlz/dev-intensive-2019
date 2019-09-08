@@ -4,7 +4,7 @@
     android:layout_height="@dimen/item_size"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/spacing_normal_16"
-    android:background="@android:color/white">
+    android:background="?attr/colorItemBackground">
 
     <ru.skillbranch.devintensive.ui.custom.AvatarImageView
         android:id="@+id/iv_avatar_group"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="chat title"
-        android:textColor="@color/color_primary"
+        android:textColor="?attr/colorText"
         android:fontFamily="sana-serif-medium"
         android:textSize="14sp"
         android:layout_toRightOf="@+id/iv_avatar_group"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="John_Doe"
-        android:textColor="@color/color_primary"
+        android:textColor="?attr/colorText"
         android:textSize="14sp"
         android:layout_toRightOf="@+id/iv_avatar_group"
         android:layout_marginRight="@dimen/spacing_tiny_4"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Когда я проходил интенсив, я мало спал"
-        android:textColor="@color/color_gray_dark"
+        android:textColor="?attr/colorSubtext"
         android:textSize="14sp"
         android:layout_toRightOf="@+id/tv_message_author"
         android:layout_toLeftOf="@+id/tv_counter_group"
@@ -56,7 +56,7 @@
         android:textSize="10sp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:textColor="@color/color_gray_dark"
+        android:textColor="?attr/colorSubtext"
         tools:text="18:00"/>
 
     <TextView

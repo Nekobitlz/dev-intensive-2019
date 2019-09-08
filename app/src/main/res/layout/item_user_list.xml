@@ -4,7 +4,7 @@
     android:layout_height="@dimen/item_size"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/spacing_normal_16"
-    android:background="@android:color/white">
+    android:background="?attr/colorItemBackground">
 
     <ImageView
         android:id="@+id/iv_selected"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         tools:text="user name"
         android:textSize="14sp"
-        android:textColor="@color/color_primary"
+        android:textColor="?attr/colorText"
         android:fontFamily="sans-serif-medium"
         android:layout_toRightOf="@id/iv_avatar_user"
         android:layout_marginLeft="@dimen/spacing_normal_16" />
@@ -52,7 +52,7 @@
         tools:text="online"
         android:layout_below="@id/tv_user_name"
         android:textSize="14sp"
-        android:textColor="@color/color_gray_dark"
+        android:textColor="?attr/colorSubtext"
         android:layout_toRightOf="@id/iv_avatar_user"
         android:layout_marginLeft="@dimen/spacing_normal_16" />
 

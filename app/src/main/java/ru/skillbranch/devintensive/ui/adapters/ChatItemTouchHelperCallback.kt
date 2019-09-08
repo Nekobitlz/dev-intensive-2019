@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -97,7 +98,10 @@ class ChatItemTouchHelperCallback(
         }
 
         with(bgPaint) {
-            color = itemView.resources.getColor(R.color.color_primary_dark, itemView.context.theme)
+            val typedValue = TypedValue()
+            val theme = itemView.context.theme
+            theme.resolveAttribute(R.attr.colorSwipeBackground, typedValue, true)
+            color = typedValue.data
         }
 
         canvas.drawRect(bgRect, bgPaint)

@@ -2,6 +2,7 @@ package ru.skillbranch.devintensive.ui.adapters
 
 import android.graphics.Color
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,11 +81,17 @@ class ChatAdapter(val listener: (ChatItem) -> Unit): RecyclerView.Adapter<ChatAd
 
     inner class SingleViewHolder(convertView: View): ChatItemViewHolder(convertView), LayoutContainer, ItemTouchViewHolder {
         override fun onItemSelected() {
-            itemView.setBackgroundColor((Color.LTGRAY))
+            val typedValue = TypedValue()
+            val theme = itemView.context.theme
+            theme.resolveAttribute(R.attr.colorItemBackground, typedValue, true)
+            itemView.setBackgroundColor(typedValue.data)
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            val typedValue = TypedValue()
+            val theme = itemView.context.theme
+            theme.resolveAttribute(R.attr.colorItemBackground, typedValue, true)
+            itemView.setBackgroundColor(typedValue.data)
         }
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
@@ -122,11 +129,17 @@ class ChatAdapter(val listener: (ChatItem) -> Unit): RecyclerView.Adapter<ChatAd
 
     inner class GroupViewHolder(convertView: View): ChatItemViewHolder(convertView), LayoutContainer, ItemTouchViewHolder {
         override fun onItemSelected() {
-            itemView.setBackgroundColor((Color.LTGRAY))
+            val typedValue = TypedValue()
+            val theme = itemView.context.theme
+            theme.resolveAttribute(R.attr.colorItemBackground, typedValue, true)
+            itemView.setBackgroundColor(typedValue.data)
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            val typedValue = TypedValue()
+            val theme = itemView.context.theme
+            theme.resolveAttribute(R.attr.colorItemBackground, typedValue, true)
+            itemView.setBackgroundColor(typedValue.data)
         }
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {

@@ -8,7 +8,7 @@
     </item>
     <item android:id="@android:id/background">
         <shape android:shape="oval">
-            <solid android:color="?attr/colorPrimary"/>
+            <solid android:color="?attr/colorArchiveIcon"/>
         </shape>
     </item>
 

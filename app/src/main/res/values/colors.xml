@@ -18,6 +18,7 @@
     <color name="color_splash">#EFEFEF</color>
     <color name="color_indicator">#581F99</color>
     <color name="color_green">#4FD149</color>
+    <color name="color_indicator_night">#2196F3</color>
 
     <color name="color_item_background">#FFFFFF</color>
     <color name="color_item_background_night">#232223</color>

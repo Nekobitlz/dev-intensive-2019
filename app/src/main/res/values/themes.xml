@@ -10,6 +10,7 @@
 
         <item name="colorAccentedSurface">@color/color_primary_light</item>
         <item name="colorIcon">@color/color_gray</item>
+        <item name="colorIndicator">@color/color_green</item>
         <item name="colorDivider">@color/color_divider_dark</item>
         <item name="colorItemBackground">@color/color_item_background</item>
         <item name="colorText">@color/color_primary</item>

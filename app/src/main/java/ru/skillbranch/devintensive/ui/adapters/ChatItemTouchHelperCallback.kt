@@ -12,6 +12,7 @@ import ru.skillbranch.devintensive.models.data.ChatItem
 
 class ChatItemTouchHelperCallback(
         val adapter: ChatAdapter,
+        val isArchived: Boolean,
         val swipeListener: (ChatItem) -> Unit
 ): ItemTouchHelper.Callback() {
 
@@ -66,7 +67,11 @@ class ChatItemTouchHelperCallback(
     }
 
     private fun drawIcon(canvas: Canvas, itemView: View, dX: Float) {
-        val icon = itemView.resources.getDrawable(R.drawable.ic_archive_white_24dp, itemView.context.theme)
+        val icon = if (isArchived)
+            itemView.resources.getDrawable(R.drawable.ic_unarchive_white_24dp, itemView.context.theme)
+        else
+            itemView.resources.getDrawable(R.drawable.ic_archive_white_24dp, itemView.context.theme)
+
         val iconSize = itemView.resources.getDimensionPixelSize(R.dimen.icon_size)
         val space = itemView.resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
 

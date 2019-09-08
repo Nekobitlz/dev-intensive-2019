@@ -87,7 +87,7 @@ class MainViewModel: ViewModel() {
                 lastMessageDate = archiveChat.lastMessageDate()?.shortFormat(),
                 isOnline = false,
                 chatType = ChatType.ARCHIVE,
-                author = archiveChat.lastMessageShort().second
+                author = "@${archiveChat.lastMessageShort().second}"
         )
     }
 

@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.ui.archive
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -47,9 +48,15 @@ class ArchiveActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        val typedValue = TypedValue()
+        val theme = this.theme
+        theme.resolveAttribute(R.attr.colorSnackbarText, typedValue, true)
 
         chatAdapter = ChatAdapter {
-            Snackbar.make(rv_archive_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(rv_archive_list, "Click on ${it.title}", Snackbar.LENGTH_LONG)
+                    .setBackgroundDrawable(R.drawable.bg_snackbar)
+                    .setTextColor(typedValue.data)
+                    .show()
         }
 
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
@@ -62,7 +69,7 @@ class ArchiveActivity : AppCompatActivity() {
                         viewModel.addToArchive(chatItemId)
                     }
                     .setBackgroundDrawable(R.drawable.bg_snackbar)
-                    .setTextColor(R.attr.colorSnackbarText)
+                    .setTextColor(typedValue.data)
                     .show()
         }
 

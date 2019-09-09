@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         val typedValue = TypedValue()
         val theme = this.theme
-        theme.resolveAttribute(R.attr.colorItemBackground, typedValue, true)
+        theme.resolveAttribute(R.attr.colorSnackbarText, typedValue, true)
 
         chatAdapter = ChatAdapter {
             if (it.chatType == ChatType.ARCHIVE) {
@@ -84,7 +84,6 @@ class MainActivity : AppCompatActivity() {
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter, false) {
             val chatItemId = it.id
             viewModel.addToArchive(chatItemId)
-
 
             Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${it.title} в архив?", Snackbar.LENGTH_LONG)
                     .setAction("Отмена") {
